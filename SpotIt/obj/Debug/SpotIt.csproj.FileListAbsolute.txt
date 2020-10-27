@@ -1,0 +1,9 @@
+C:\Users\elial\source\repos\SpotIt\SpotIt\bin\Debug\SpotIt.exe.config
+C:\Users\elial\source\repos\SpotIt\SpotIt\bin\Debug\SpotIt.exe
+C:\Users\elial\source\repos\SpotIt\SpotIt\bin\Debug\SpotIt.pdb
+C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.csprojAssemblyReference.cache
+C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.Properties.Resources.resources
+C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.csproj.GenerateResource.cache
+C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.csproj.CoreCompileInputs.cache
+C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.exe
+C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.pdb
