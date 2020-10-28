@@ -7,3 +7,4 @@ C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.csproj.GenerateResour
 C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.csproj.CoreCompileInputs.cache
 C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.exe
 C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.pdb
+C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.Form1.resources

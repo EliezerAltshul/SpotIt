@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SpotIt {
 	public class Game
@@ -18,7 +19,7 @@ namespace SpotIt {
 			List<int[]> Cards = new List<int[]>();
 
 			//find the number of elements on each card
-			NumberOfElems = Math.Ceiling(Math.Sqrt(this.elems.Length));
+			int NumberOfElems = (int)Math.Ceiling(Math.Sqrt(this.elems.Length));
 
 			//create the first card
 			int[] first = new int[NumberOfElems];
@@ -26,31 +27,31 @@ namespace SpotIt {
 			{
 				first[i] = this.elems[i];
 			}
-			Cards.add(first);
+			Cards.Add(first);
 
 			int count = 0;
 			foreach (int firstElem in first)
 			{
 				count++;
-				for (int i = 1; i < NumberOfElems; i++)
+				for (int i = 0; i < NumberOfElems-2; i++)
 				{
 					//create a card beginning with each element in the first card
 					int[] card = new int[NumberOfElems];
 					card[0] = firstElem;
-					for (int j = 1; j < NumberOfElems; j++)
+					for (int j = 0; j < NumberOfElems-2; j++)
 					{
 						//for the first set of cards, simply create add the next NumberOfElems in elem
 						if (count == 1)
-							card[i] = this.elems[i * NumberOfElems + j];
+							card[j+1] = this.elems[NumberOfElems + NumberOfElems * i + j];
 						//all the rest of the cards have the next NumberOfElems, 
 						//but the space incrementally gets larger
 						else
 						{
 							//I am not certain about this code
-							card[i] = this.elems[j * NumberOfElems + (((count - 2) * j + i) % NumberOfElems)];
+							card[j] = this.elems[NumberOfElems + NumberOfElems * j + (count * j + i) % NumberOfElems];
 						}
 					}
-					Cards.add(card);
+					Cards.Add(card);
 				}
 			}
 			return Cards;
