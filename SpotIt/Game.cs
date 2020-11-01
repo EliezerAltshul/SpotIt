@@ -49,7 +49,7 @@ namespace SpotIt {
 						else
 						{
 							//I am not certain about this code
-							card[k+1] = this.elems[n + n * k + (i * k + j) % n];
+							card[k+1] = this.elems[n + 1 + n * k + (i * k + j) % n];
 						}
 					}
 					Cards.Add(card);
