@@ -19,36 +19,37 @@ namespace SpotIt {
 			List<int[]> Cards = new List<int[]>();
 
 			//find the number of elements on each card
-			int NumberOfElems = (int)Math.Ceiling(Math.Sqrt(this.elems.Length));
+			//n is the number of elements in each card
+			int n = (int)Math.Ceiling(Math.Sqrt(this.elems.Length)) - 1;
 
 			//create the first card
-			int[] first = new int[NumberOfElems];
-			for (int i = 0; i < NumberOfElems; i++)
+			int[] first = new int[n+1];
+			for (int i = 0; i <= n; i++)
 			{
 				first[i] = this.elems[i];
 			}
 			Cards.Add(first);
 
-			int count = 0;
-			foreach (int firstElem in first)
+			int firstElem = 0;
+			for(int i = 0; i<n+1; i++)
 			{
-				count++;
-				for (int i = 0; i < NumberOfElems-2; i++)
+				firstElem = first[i];
+				for (int j = 0; j < n; j++)
 				{
 					//create a card beginning with each element in the first card
-					int[] card = new int[NumberOfElems];
+					int[] card = new int[n+1];
 					card[0] = firstElem;
-					for (int j = 0; j < NumberOfElems-2; j++)
+					for (int k = 0; k < n; k++)
 					{
-						//for the first set of cards, simply create add the next NumberOfElems in elem
-						if (count == 1)
-							card[j+1] = this.elems[NumberOfElems + NumberOfElems * i + j];
-						//all the rest of the cards have the next NumberOfElems, 
+						//for the first set of cards, simply create add the next n in elem
+						if (i == 0)
+							card[k+1] = this.elems[n + 1 + n * j + k];
+						//all the rest of the cards have the next n, 
 						//but the space incrementally gets larger
 						else
 						{
 							//I am not certain about this code
-							card[j] = this.elems[NumberOfElems + NumberOfElems * j + (count * j + i) % NumberOfElems];
+							card[k+1] = this.elems[n + n * k + (i * k + j) % n];
 						}
 					}
 					Cards.Add(card);

@@ -12,6 +12,10 @@ namespace SpotIt
 {
     public partial class Form1 : Form
     {
+        static int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                         11, 12, 13, 14, 15, 16, 17, 18,
+                         19, 20, 21};
+        static Game game = new Game(arr);
         public Form1()
         {
             InitializeComponent();
@@ -26,6 +30,7 @@ namespace SpotIt
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.InputButton = new System.Windows.Forms.Button();
             this.Conformation = new System.Windows.Forms.Label();
+            this.ListLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listView1
@@ -88,9 +93,18 @@ namespace SpotIt
             this.Conformation.Size = new System.Drawing.Size(0, 17);
             this.Conformation.TabIndex = 6;
             // 
+            // ListLabel
+            // 
+            this.ListLabel.AutoSize = true;
+            this.ListLabel.Location = new System.Drawing.Point(373, 29);
+            this.ListLabel.Name = "ListLabel";
+            this.ListLabel.Size = new System.Drawing.Size(0, 17);
+            this.ListLabel.TabIndex = 7;
+            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(379, 442);
+            this.ClientSize = new System.Drawing.Size(670, 442);
+            this.Controls.Add(this.ListLabel);
             this.Controls.Add(this.Conformation);
             this.Controls.Add(this.InputButton);
             this.Controls.Add(this.textBox1);
@@ -99,8 +113,22 @@ namespace SpotIt
             this.Controls.Add(this.listView2);
             this.Controls.Add(this.listView1);
             this.Name = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            int count = 0;
+            foreach (int[] card in game.Deck)
+            {
+                count++;
+                ListLabel.Text += ("\nCard " + count + ": ");
+                foreach (int elem in card)
+                    ListLabel.Text += (elem + ", ");
+            }
 
         }
     }
