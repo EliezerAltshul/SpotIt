@@ -4,23 +4,24 @@ using System.Collections.Generic;
 namespace SpotIt {
 	public class Game
 	{
-		public List<int[]> Deck;        //a deck of cards
+		public int[][] Deck;        //a deck of cards
 		public int[] elems;         //an array of elements on the cards
+		public int numbOfElem;
 
 		//a constructer asking for an array of elements
-		public Game(int[] elems)
+		public Game(int numbOfElem)
 		{
-			this.elems = elems;
-			this.Deck = GenerateCards();
+			this.numbOfElem = numbOfElem;
+			this.Deck = GenerateCards(numbOfElem-1);
 		}
 
-		private List<int[]> GenerateCards()
+		private int[][] GenerateCards(int n)
 		{
 			List<int[]> Cards = new List<int[]>();
 
-			//find the number of elements on each card
-			//n is the number of elements in each card
-			int n = (int)Math.Ceiling(Math.Sqrt(this.elems.Length)) - 1;
+			this.elems = new int[n * n + n + 1];
+			for (int i = 0; i < elems.Length; i++)
+				elems[i] = i;
 
 			//create the first card
 			int[] first = new int[n+1];
@@ -31,7 +32,7 @@ namespace SpotIt {
 			Cards.Add(first);
 
 			int firstElem = 0;
-			for(int i = 0; i<n+1; i++)
+			for(int i = 0; i<=n; i++)
 			{
 				firstElem = first[i];
 				for (int j = 0; j < n; j++)
@@ -48,14 +49,13 @@ namespace SpotIt {
 						//but the space incrementally gets larger
 						else
 						{
-							//I am not certain about this code
 							card[k+1] = this.elems[n + 1 + n * k + (i * k + j) % n];
 						}
 					}
 					Cards.Add(card);
 				}
 			}
-			return Cards;
+			return Cards.ToArray();
 		}
 	}
 }
