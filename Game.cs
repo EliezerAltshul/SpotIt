@@ -55,5 +55,21 @@ namespace SpotIt {
 			}
 			return Cards;
 		}
+		public int CompareCards(int[] cardOne, int[] cardTwo)
+		{
+
+			int matchingElement = 0;
+			for (int i = 0; i < cardOne.Length; i++)
+			{
+				for (int j = 0; j < cardTwo.Length; j++)
+				{
+					if (cardOne[i] == cardTwo[j])
+					{
+						matchingElement = cardOne[i];
+					}
+				}
+			}
+			return matchingElement;
+		}
 	}
 }
