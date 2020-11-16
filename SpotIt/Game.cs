@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 
 namespace SpotIt {
+
 	public class Game
 	{
-		public int[][] Deck;        //a deck of cards
+		public List<int[]> Cards;        //a deck of cards
+		public Stack<int[]> Deck;
 		public int[] elems;         //an array of elements on the cards
 		public int numbOfElem;
 
@@ -12,11 +14,40 @@ namespace SpotIt {
 		public Game(int numbOfElem)
 		{
 			this.numbOfElem = numbOfElem;
-			this.Deck = GenerateCards(numbOfElem-1);
+			this.Cards = ShuffleDeck(GenerateCards(numbOfElem - 1));
+			this.Deck = GenerateDeck(Cards);
+		}
+		
+		private Stack<int[]> GenerateDeck(List<int[]> Cards)
+        {
+			Stack<int[]> stack = new Stack<int[]>();
+			
+			foreach(int[] card in Cards)
+            {
+				stack.Push(card);
+
+			}
+
+			return stack;
 		}
 
-		private int[][] GenerateCards(int n)
+		private List<int[]> ShuffleDeck(List<int[]> list)
 		{
+			Random rng = new Random();
+			int n = list.Count;
+			while (n > 1)
+			{
+				n--;
+				int k = rng.Next(n + 1);
+				int[] value = list[k];
+				list[k] = list[n];
+				list[n] = value;
+			}
+			return list;
+		}
+
+
+		private List<int[]> GenerateCards(int n){
 			List<int[]> Cards = new List<int[]>();
 
 			this.elems = new int[n * n + n + 1];
@@ -52,10 +83,43 @@ namespace SpotIt {
 							card[k+1] = this.elems[n + 1 + n * k + (i * k + j) % n];
 						}
 					}
+					
+					Random rng = new Random();
+					int length = card.Length;
+					while (length > 1)
+					{
+						int k = rng.Next(length--);
+						int temp = card[n];
+						card[n] = card[k];
+						card[k] = temp;
+					}
+
 					Cards.Add(card);
 				}
 			}
-			return Cards.ToArray();
+			return Cards;
+		}
+		public bool SpotMatch(int input, int[] cardOne, int[] cardTwo)
+        {
+			int match = CompareCards(cardOne, cardTwo);
+			return input == match;
+
+		}
+		public int CompareCards(int[] cardOne, int[] cardTwo)
+		{
+
+			int matchingElement = 0;
+			for (int i = 0; i < cardOne.Length; i++)
+			{
+				for (int j = 0; j < cardTwo.Length; j++)
+				{
+					if (cardOne[i] == cardTwo[j])
+					{
+						matchingElement = cardOne[i];
+					}
+				}
+			}
+			return matchingElement;
 		}
 	}
 }
