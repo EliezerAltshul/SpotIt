@@ -16,7 +16,7 @@ namespace SpotIt
     {
 
         static string[] images = System.IO.Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, @"png"), "*.png");
-        static List<string> imageList = new List<string>();
+        static Dictionay<string, int> imageDict = new Dictionay<string, int>();
         static PictureBox[] userPictures = new PictureBox[6];
         static PictureBox[] compPictures = new PictureBox[6];
         static Game game;
@@ -253,9 +253,9 @@ namespace SpotIt
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            int count = 0;
             foreach (string image in images)
-                imageList.Add(image);
+                imageDict.Add(image, count++);
 
             userPictures[0] = this.pictureBox1;
             userPictures[1] = this.pictureBox2;
