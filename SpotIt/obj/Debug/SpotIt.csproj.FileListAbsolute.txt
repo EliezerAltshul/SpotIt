@@ -8,3 +8,13 @@ C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.csproj.CoreCompileInp
 C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.exe
 C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.pdb
 C:\Users\elial\source\repos\SpotIt\SpotIt\obj\Debug\SpotIt.Form1.resources
+C:\Users\nitti\RiderProjects\spotit\SpotIt\bin\Debug\SpotIt.exe.config
+C:\Users\nitti\RiderProjects\spotit\SpotIt\bin\Debug\SpotIt.exe
+C:\Users\nitti\RiderProjects\spotit\SpotIt\bin\Debug\SpotIt.pdb
+C:\Users\nitti\RiderProjects\spotit\SpotIt\obj\Debug\SpotIt.csprojAssemblyReference.cache
+C:\Users\nitti\RiderProjects\spotit\SpotIt\obj\Debug\SpotIt.Form1.resources
+C:\Users\nitti\RiderProjects\spotit\SpotIt\obj\Debug\SpotIt.Properties.Resources.resources
+C:\Users\nitti\RiderProjects\spotit\SpotIt\obj\Debug\SpotIt.csproj.GenerateResource.cache
+C:\Users\nitti\RiderProjects\spotit\SpotIt\obj\Debug\SpotIt.csproj.CoreCompileInputs.cache
+C:\Users\nitti\RiderProjects\spotit\SpotIt\obj\Debug\SpotIt.exe
+C:\Users\nitti\RiderProjects\spotit\SpotIt\obj\Debug\SpotIt.pdb

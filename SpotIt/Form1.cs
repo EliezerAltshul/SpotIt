@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,7 +15,7 @@ namespace SpotIt
     public partial class Form1 : Form
     {
 
-        static string[] images = System.IO.Directory.GetFiles(@"C:\Users\elial\source\repos\SpotIt\SpotIt\3382652-animal-avatars\png", "*.png");
+        static string[] images = System.IO.Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, @"png"), "*.png");
         static List<string> imageList = new List<string>();
         static PictureBox[] userPictures = new PictureBox[6];
         static PictureBox[] compPictures = new PictureBox[6];
@@ -44,6 +45,7 @@ namespace SpotIt
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.timer = new System.Windows.Forms.Label();
             this.CompCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6Comp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5Comp)).BeginInit();
@@ -208,9 +210,18 @@ namespace SpotIt
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
+            // timer
+            // 
+            this.timer.AutoSize = true;
+            this.timer.Location = new System.Drawing.Point(338, 15);
+            this.timer.Name = "timer";
+            this.timer.Size = new System.Drawing.Size(0, 17);
+            this.timer.TabIndex = 12;
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(1182, 628);
+            this.Controls.Add(this.timer);
             this.Controls.Add(this.pictureBox6);
             this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.pictureBox4);
@@ -236,6 +247,7 @@ namespace SpotIt
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
