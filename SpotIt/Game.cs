@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 
 namespace SpotIt
 {
 
     public class Game
     {
+        Random rnd = new Random();
         public List<int[]> Cards;        //a deck of cards
         public Stack<int[]> Deck;
         public int[] elems;         //an array of elements on the cards
         public int numbOfElem;
 
         //a constructer asking for an array of elements
-        public Game(int numbOfElem)
+        public Game(int numbOfElem, string[] files)
         {
             this.numbOfElem = numbOfElem;
-            this.Cards = ShuffleDeck(GenerateCards(numbOfElem - 1));
+            this.Cards = GenerateCards(numbOfElem - 1, files);
             this.Deck = GenerateDeck(Cards);
         }
 
@@ -47,14 +50,31 @@ namespace SpotIt
             return list;
         }
 
+        private void RandomizeElems(string[] files)
+        {
+            bool[] visited = new bool[files.Length];
 
-        private List<int[]> GenerateCards(int n)
+            for(int i = 0; i < elems.Length; i++)
+            {
+                int randInt = 0;
+                do
+                {
+                    randInt = rnd.Next(visited.Length);
+                } while (visited[randInt]);
+
+                elems[i] = randInt;
+                visited[randInt] = true;
+            }
+        }
+        private List<int[]> GenerateCards(int n, string[] files)
         {
             List<int[]> Cards = new List<int[]>();
 
             this.elems = new int[n * n + n + 1];
             for (int i = 0; i < elems.Length; i++)
                 elems[i] = i;
+
+            RandomizeElems(files);
 
             //create the first card
             int[] first = new int[n + 1];
@@ -85,28 +105,12 @@ namespace SpotIt
                             card[k + 1] = this.elems[n + 1 + n * k + (i * k + j) % n];
                         }
                     }
-
-                    Random rng = new Random();
-                    int length = card.Length;
-                    while (length > 1)
-                    {
-                        int k = rng.Next(length--);
-                        int temp = card[n];
-                        card[n] = card[k];
-                        card[k] = temp;
-                    }
-
+                    card.OrderBy(x => rnd.Next() * (rnd.Next(1)+1));
                     Cards.Add(card);
                 }
             }
-            return Cards;
-        }
-        
-        public bool SpotMatch(int input, int[] cardOne, int[] cardTwo)
-        {
-            int match = CompareCards(cardOne, cardTwo);
-            return input == match;
 
+            return Cards.OrderBy(x => rnd.Next() * (rnd.Next(1) + 1)).ToList();
         }
 
         public int CompareCards(int[] cardOne, int[] cardTwo)
@@ -125,10 +129,11 @@ namespace SpotIt
             }
             return matchingElement;
         }
+
+        internal bool SpotMatch(int imageNumber, int[] userCard, int[] compCard)
+        {
+            return imageNumber == CompareCards(userCard, compCard);
+        }
+
     }
-}
-			}
-			return matchingElement;
-		}
-	}
 }

@@ -16,9 +16,8 @@ namespace SpotIt
     {
 
         static string[] images = System.IO.Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, @"png"), "*.png");
-        static Dictionay<string, int> imageDict = new Dictionay<string, int>();
-        static PictureBox[] userPictures = new PictureBox[6];
-        static PictureBox[] compPictures = new PictureBox[6];
+        static List<Spot> userSpots = new List<Spot>();
+        static List<Spot> compSpots = new List<Spot>();
         static Game game;
         static bool gameContinue = false;
         static int[] userCard;
@@ -164,6 +163,8 @@ namespace SpotIt
             this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox6.TabIndex = 11;
             this.pictureBox6.TabStop = false;
+            this.pictureBox6.Click += new EventHandler(pictureBox6_Click);
+
             // 
             // pictureBox5
             // 
@@ -173,6 +174,8 @@ namespace SpotIt
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox5.TabIndex = 10;
             this.pictureBox5.TabStop = false;
+            this.pictureBox5.Click += new EventHandler(pictureBox5_Click);
+
             // 
             // pictureBox4
             // 
@@ -182,6 +185,8 @@ namespace SpotIt
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 9;
             this.pictureBox4.TabStop = false;
+            this.pictureBox4.Click += new EventHandler(pictureBox4_Click);
+
             // 
             // pictureBox3
             // 
@@ -191,6 +196,8 @@ namespace SpotIt
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 8;
             this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new EventHandler(pictureBox3_Click);
+
             // 
             // pictureBox2
             // 
@@ -200,6 +207,7 @@ namespace SpotIt
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new EventHandler(pictureBox2_Click);
             // 
             // pictureBox1
             // 
@@ -209,6 +217,8 @@ namespace SpotIt
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new EventHandler(pictureBox1_Click);
+
             // 
             // timer
             // 
@@ -253,37 +263,34 @@ namespace SpotIt
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            int count = 0;
-            foreach (string image in images)
-                imageDict.Add(image, count++);
+            Random rnd = new Random();
+            userSpots.Add(new Spot(this.pictureBox1, -1));
+            userSpots.Add(new Spot(this.pictureBox2, -1));
+            userSpots.Add(new Spot(this.pictureBox3, -1));
+            userSpots.Add(new Spot(this.pictureBox4, -1));
+            userSpots.Add(new Spot(this.pictureBox5, -1));
+            userSpots.Add(new Spot(this.pictureBox6, -1));
 
-            userPictures[0] = this.pictureBox1;
-            userPictures[1] = this.pictureBox2;
-            userPictures[2] = this.pictureBox3;
-            userPictures[3] = this.pictureBox4;
-            userPictures[4] = this.pictureBox5;
-            userPictures[5] = this.pictureBox6;
-            
-            compPictures[0] = this.pictureBox1Comp;
-            compPictures[1] = this.pictureBox2Comp;
-            compPictures[2] = this.pictureBox3Comp;
-            compPictures[3] = this.pictureBox4Comp;
-            compPictures[4] = this.pictureBox5Comp;
-            compPictures[5] = this.pictureBox6Comp;
+            compSpots.Add(new Spot(this.pictureBox1Comp, -1));
+            compSpots.Add(new Spot(this.pictureBox2Comp, -1));
+            compSpots.Add(new Spot(this.pictureBox3Comp, -1));
+            compSpots.Add(new Spot(this.pictureBox4Comp, -1));
+            compSpots.Add(new Spot(this.pictureBox5Comp, -1));
+            compSpots.Add(new Spot(this.pictureBox6Comp, -1));
 
         }
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
-            game = new Game(6);
+            game = new Game(6, images);
             gameContinue = true;
             userCard = game.Deck.Pop();
 
-            DisplayCards(userCard, userPictures);
+            DisplayCards(userCard, userSpots);
 
             compCard = game.Deck.Pop();
 
-            DisplayCards(compCard, compPictures);
+            DisplayCards(compCard, compSpots);
 
         }
 
@@ -292,36 +299,37 @@ namespace SpotIt
             if(gameContinue == true)
             {
                 userCard = compCard;
-                DisplayCards(userCard, userPictures);
+                DisplayCards(userCard, userSpots);
 
                 compCard = game.Deck.Pop();
-                DisplayCards(compCard, compPictures);
+                DisplayCards(compCard, compSpots);
 
                 gameContinue = game.Deck.Count != 0;
             }
         }
 
-        private void DisplayCards(int[] card, PictureBox[] pictures)
+        private void DisplayCards(int[] card, List<Spot> spots)
         {
             for (int i = 0; i < card.Length; i++)
             {
-                pictures[i].Image = Image.FromFile(images[card[i]]);
+                spots[i].itemNumber = card[i];
+                spots[i].picturBox.Image = Image.FromFile(images[card[i]]);
             }
         }
 
         private void DisplayNextCards()
         {
             userCard = compCard;
-            DisplayCards(userCard, userPictures);
+            DisplayCards(userCard, userSpots);
 
             compCard = game.Deck.Pop();
-            DisplayCards(compCard, compPictures);
+            DisplayCards(compCard, compSpots);
         }
 
         private bool isCorrectMatch(int[] userCard, int[] compCard, PictureBox picture)
         {
-            int imageNumber = imageList.IndexOf(picture.ImageLocation);
-            return game.SpotMatch(imageNumber, userCard, compCard);
+            var imageNumber = userSpots.Where(s => s.picturBox.Equals(picture)).Select(s => s.itemNumber);
+            return game.SpotMatch(imageNumber.FirstOrDefault(), userCard, compCard);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -365,5 +373,6 @@ namespace SpotIt
                 DisplayNextCards();
             gameContinue = game.Deck.Count != 0;
         }
+
     }
 }
