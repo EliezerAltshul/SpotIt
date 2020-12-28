@@ -339,6 +339,8 @@ namespace SpotIt
 
             DisplayCards(compCard, compSpots);
 
+            doneLabel.Text = "";
+
         }
 
 
