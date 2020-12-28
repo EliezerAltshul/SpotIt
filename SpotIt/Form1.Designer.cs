@@ -27,14 +27,18 @@
         private System.Windows.Forms.PictureBox pictureBox1Comp;
         private System.Windows.Forms.PictureBox pictureBox2Comp;
         private System.Windows.Forms.PictureBox pictureBox3Comp;
-        private System.Windows.Forms.Button NextButton;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label timer;
+        private System.Windows.Forms.Label doneLabel;
+        private System.Windows.Forms.Label cardCountLabel;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label TimeMinLabel;
+        private System.Windows.Forms.Label TimeSecLabel;
+        private System.Windows.Forms.Label BestScore;
     }
 }
 

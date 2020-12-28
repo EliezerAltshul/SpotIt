@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,16 +21,21 @@ namespace SpotIt
         static List<Spot> userSpots = new List<Spot>();
         static List<Spot> compSpots = new List<Spot>();
         static Game game;
-        static bool gameContinue = false;
+        static bool gameContinue;
         static int[] userCard;
         static int[] compCard;
+        static int counter;
+        static int timeMin = 0, timeSec = 0;
+        static int bestTimeMin = Int32.MaxValue, bestTimeSec = Int32.MaxValue;
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.PlayButton = new System.Windows.Forms.Button();
             this.CompCard = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox6Comp = new System.Windows.Forms.PictureBox();
@@ -37,14 +44,18 @@ namespace SpotIt
             this.pictureBox1Comp = new System.Windows.Forms.PictureBox();
             this.pictureBox2Comp = new System.Windows.Forms.PictureBox();
             this.pictureBox3Comp = new System.Windows.Forms.PictureBox();
-            this.NextButton = new System.Windows.Forms.Button();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.timer = new System.Windows.Forms.Label();
+            this.doneLabel = new System.Windows.Forms.Label();
+            this.cardCountLabel = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.TimeMinLabel = new System.Windows.Forms.Label();
+            this.TimeSecLabel = new System.Windows.Forms.Label();
+            this.BestScore = new System.Windows.Forms.Label();
             this.CompCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6Comp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5Comp)).BeginInit();
@@ -64,11 +75,11 @@ namespace SpotIt
             // 
             this.PlayButton.Location = new System.Drawing.Point(176, 12);
             this.PlayButton.Name = "PlayButton";
-            this.PlayButton.Size = new System.Drawing.Size(75, 23);
+            this.PlayButton.Size = new System.Drawing.Size(75, 39);
             this.PlayButton.TabIndex = 2;
             this.PlayButton.Text = "Play";
             this.PlayButton.UseVisualStyleBackColor = true;
-            this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
+            this.PlayButton.Click += new System.EventHandler(this.PlayButton_ClickAsync);
             // 
             // CompCard
             // 
@@ -145,16 +156,6 @@ namespace SpotIt
             this.pictureBox3Comp.TabIndex = 2;
             this.pictureBox3Comp.TabStop = false;
             // 
-            // NextButton
-            // 
-            this.NextButton.Location = new System.Drawing.Point(257, 12);
-            this.NextButton.Name = "NextButton";
-            this.NextButton.Size = new System.Drawing.Size(75, 23);
-            this.NextButton.TabIndex = 5;
-            this.NextButton.Text = "Next";
-            this.NextButton.UseVisualStyleBackColor = true;
-            this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
-            // 
             // pictureBox6
             // 
             this.pictureBox6.Location = new System.Drawing.Point(346, 250);
@@ -163,8 +164,7 @@ namespace SpotIt
             this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox6.TabIndex = 11;
             this.pictureBox6.TabStop = false;
-            this.pictureBox6.Click += new EventHandler(pictureBox6_Click);
-
+            this.pictureBox6.Click += new System.EventHandler(this.pictureBox6_Click);
             // 
             // pictureBox5
             // 
@@ -174,8 +174,7 @@ namespace SpotIt
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox5.TabIndex = 10;
             this.pictureBox5.TabStop = false;
-            this.pictureBox5.Click += new EventHandler(pictureBox5_Click);
-
+            this.pictureBox5.Click += new System.EventHandler(this.pictureBox5_Click);
             // 
             // pictureBox4
             // 
@@ -185,8 +184,7 @@ namespace SpotIt
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 9;
             this.pictureBox4.TabStop = false;
-            this.pictureBox4.Click += new EventHandler(pictureBox4_Click);
-
+            this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
             // 
             // pictureBox3
             // 
@@ -196,8 +194,7 @@ namespace SpotIt
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 8;
             this.pictureBox3.TabStop = false;
-            this.pictureBox3.Click += new EventHandler(pictureBox3_Click);
-
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // pictureBox2
             // 
@@ -207,7 +204,7 @@ namespace SpotIt
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new EventHandler(pictureBox2_Click);
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // pictureBox1
             // 
@@ -217,28 +214,74 @@ namespace SpotIt
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new EventHandler(pictureBox1_Click);
-
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // timer
+            // doneLabel
             // 
-            this.timer.AutoSize = true;
-            this.timer.Location = new System.Drawing.Point(338, 15);
-            this.timer.Name = "timer";
-            this.timer.Size = new System.Drawing.Size(0, 17);
-            this.timer.TabIndex = 12;
+            this.doneLabel.AutoSize = true;
+            this.doneLabel.Location = new System.Drawing.Point(257, 23);
+            this.doneLabel.MinimumSize = new System.Drawing.Size(200, 0);
+            this.doneLabel.Name = "doneLabel";
+            this.doneLabel.Size = new System.Drawing.Size(200, 17);
+            this.doneLabel.TabIndex = 12;
+            // 
+            // cardCountLabel
+            // 
+            this.cardCountLabel.AutoSize = true;
+            this.cardCountLabel.Location = new System.Drawing.Point(463, 15);
+            this.cardCountLabel.MinimumSize = new System.Drawing.Size(100, 0);
+            this.cardCountLabel.Name = "cardCountLabel";
+            this.cardCountLabel.Size = new System.Drawing.Size(100, 17);
+            this.cardCountLabel.TabIndex = 13;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // TimeMinLabel
+            // 
+            this.TimeMinLabel.AutoSize = true;
+            this.TimeMinLabel.Location = new System.Drawing.Point(895, 23);
+            this.TimeMinLabel.MinimumSize = new System.Drawing.Size(50, 0);
+            this.TimeMinLabel.Name = "TimeMinLabel";
+            this.TimeMinLabel.Size = new System.Drawing.Size(50, 17);
+            this.TimeMinLabel.TabIndex = 15;
+            // 
+            // TimeSecLabel
+            // 
+            this.TimeSecLabel.AutoSize = true;
+            this.TimeSecLabel.Location = new System.Drawing.Point(951, 23);
+            this.TimeSecLabel.MinimumSize = new System.Drawing.Size(50, 0);
+            this.TimeSecLabel.Name = "TimeSecLabel";
+            this.TimeSecLabel.Size = new System.Drawing.Size(50, 17);
+            this.TimeSecLabel.TabIndex = 16;
+            // 
+            // BestScore
+            // 
+            this.BestScore.AutoSize = true;
+            this.BestScore.Location = new System.Drawing.Point(801, 40);
+            this.BestScore.MinimumSize = new System.Drawing.Size(200, 0);
+            this.BestScore.Name = "BestScore";
+            this.BestScore.Size = new System.Drawing.Size(200, 17);
+            this.BestScore.TabIndex = 17;
+            this.BestScore.Text = "Best Score:";
             // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(1182, 628);
-            this.Controls.Add(this.timer);
+            this.Controls.Add(this.BestScore);
+            this.Controls.Add(this.TimeSecLabel);
+            this.Controls.Add(this.TimeMinLabel);
+            this.Controls.Add(this.cardCountLabel);
+            this.Controls.Add(this.doneLabel);
             this.Controls.Add(this.pictureBox6);
             this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.NextButton);
             this.Controls.Add(this.CompCard);
             this.Controls.Add(this.PlayButton);
             this.Name = "Form1";
@@ -263,7 +306,7 @@ namespace SpotIt
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Random rnd = new Random();
+            BestScore.Text += " Minute: " + 0 + " Second: " + 0;
             userSpots.Add(new Spot(this.pictureBox1, -1));
             userSpots.Add(new Spot(this.pictureBox2, -1));
             userSpots.Add(new Spot(this.pictureBox3, -1));
@@ -280,10 +323,13 @@ namespace SpotIt
 
         }
 
-        private void PlayButton_Click(object sender, EventArgs e)
+        private  void PlayButton_ClickAsync(object sender, EventArgs e)
         {
             game = new Game(6, images);
             gameContinue = true;
+            
+            counter = game.elems.Length-3;
+
             userCard = game.Deck.Pop();
 
             DisplayCards(userCard, userSpots);
@@ -291,12 +337,32 @@ namespace SpotIt
             compCard = game.Deck.Pop();
 
             DisplayCards(compCard, compSpots);
-
+            
         }
 
-        private void NextButton_Click(object sender, EventArgs e)
+        
+
+        private void DisplayCards(int[] card, List<Spot> spots)
         {
-            if(gameContinue == true)
+            gameContinue = counter > 0;
+            for (int i = 0; i < card.Length; i++)
+            {
+                spots[i].itemNumber = card[i];
+                spots[i].picturBox.Image = Image.FromFile(images[card[i]]);
+                cardCountLabel.Text = "Cards Left: " + counter;
+            }
+            if (!gameContinue)
+            {
+                doneLabel.Text = "Completed! Play Again???";
+                ShowBestScore();
+            }
+            
+        }
+
+        private void DisplayNextCards()
+        {
+
+            if (gameContinue)
             {
                 userCard = compCard;
                 DisplayCards(userCard, userSpots);
@@ -304,26 +370,9 @@ namespace SpotIt
                 compCard = game.Deck.Pop();
                 DisplayCards(compCard, compSpots);
 
-                gameContinue = game.Deck.Count != 0;
+                counter--;
             }
-        }
-
-        private void DisplayCards(int[] card, List<Spot> spots)
-        {
-            for (int i = 0; i < card.Length; i++)
-            {
-                spots[i].itemNumber = card[i];
-                spots[i].picturBox.Image = Image.FromFile(images[card[i]]);
-            }
-        }
-
-        private void DisplayNextCards()
-        {
-            userCard = compCard;
-            DisplayCards(userCard, userSpots);
-
-            compCard = game.Deck.Pop();
-            DisplayCards(compCard, compSpots);
+           
         }
 
         private bool isCorrectMatch(int[] userCard, int[] compCard, PictureBox picture)
@@ -372,6 +421,33 @@ namespace SpotIt
             if (isCorrectMatch(userCard, compCard, pictureBox6) && gameContinue)
                 DisplayNextCards();
             gameContinue = game.Deck.Count != 0;
+        }
+
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (gameContinue)
+            {
+                TimeSecLabel.Text = "Seconds: " + ++timeSec;
+                if (timeSec >= 60)
+                {
+                    TimeMinLabel.Text = "Minute: " + ++timeMin;
+                    TimeSecLabel.Text = "Seconds: " + (timeSec = 0);
+                }
+            }
+        }
+       
+        private void ShowBestScore()
+        {
+            if(timeMin < bestTimeMin || (timeMin == bestTimeMin && (timeSec < bestTimeSec)))
+            {
+                bestTimeMin = timeMin;
+                bestTimeSec = timeSec;
+                BestScore.Text = " Minute: " + bestTimeMin + " Second: " + bestTimeSec;
+            }
+            
+            timeSec = 0;
+            timeMin = 0;
         }
 
     }
