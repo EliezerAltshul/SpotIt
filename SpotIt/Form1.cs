@@ -26,7 +26,7 @@ namespace SpotIt
         static int[] compCard;
         static int counter;
         static int timeMin = 0, timeSec = 0;
-        static int bestTimeMin = Int32.MaxValue, bestTimeSec = Int32.MaxValue;
+        static int bestTimeMin = 0, bestTimeSec = int.MaxValue;
         public Form1()
         {
             InitializeComponent();
@@ -332,12 +332,9 @@ namespace SpotIt
             counter = game.elems.Length - 3;
 
             userCard = game.Deck.Pop();
-
-            DisplayCards(userCard, userSpots);
-
             compCard = game.Deck.Pop();
 
-            DisplayCards(compCard, compSpots);
+            DisplayCards(userCard, userSpots, compCard, compSpots);
 
             doneLabel.Text = "";
 
@@ -345,13 +342,20 @@ namespace SpotIt
 
 
 
-        private void DisplayCards(int[] card, List<Spot> spots)
+        private void DisplayCards(int[] userCard, List<Spot> userSpots, int[] compCard, List<Spot> compSpot)
         {
             gameContinue = counter > 0;
-            for (int i = 0; i < card.Length; i++)
+            for (int i = 0; i < userCard.Length; i++)
             {
-                spots[i].itemNumber = card[i];
-                spots[i].picturBox.Image = Image.FromFile(images[card[i]]);
+                userSpots[i].itemNumber = userCard[i];
+                userSpots[i].picturBox.Image = Image.FromFile(images[userCard[i]]);
+                cardCountLabel.Text = "Cards Left: " + counter;
+            }
+
+            for (int i = 0; i < compCard.Length; i++)
+            {
+                compSpots[i].itemNumber = compCard[i];
+                compSpots[i].picturBox.Image = Image.FromFile(images[compCard[i]]);
                 cardCountLabel.Text = "Cards Left: " + counter;
             }
             if (!gameContinue || counter == 0)
@@ -369,10 +373,8 @@ namespace SpotIt
                 counter--;
 
                 userCard = compCard;
-                DisplayCards(userCard, userSpots);
-
                 compCard = game.Deck.Pop();
-                DisplayCards(compCard, compSpots);
+                DisplayCards(userCard, userSpots, compCard, compSpots);
 
             }
 
