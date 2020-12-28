@@ -329,6 +329,7 @@ namespace SpotIt
             game = new Game(6, images);
             gameContinue = true;
 
+
             counter = game.elems.Length - 3;
 
             userCard = game.Deck.Pop();
@@ -337,6 +338,8 @@ namespace SpotIt
             DisplayCards(userCard, userSpots, compCard, compSpots);
 
             doneLabel.Text = "";
+            TimeMinLabel.Text = "";
+            TimeMinLabel.Text = "";
 
         }
 
