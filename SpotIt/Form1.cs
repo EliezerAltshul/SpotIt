@@ -26,7 +26,7 @@ namespace SpotIt
         static int[] compCard;
         static int counter;
         static int timeMin = 0, timeSec = 0;
-        static int bestTimeMin = 0, bestTimeSec = int.MaxValue;
+        static int bestTimeMin = int.MaxValue, bestTimeSec = int.MaxValue;
         public Form1()
         {
             InitializeComponent();
