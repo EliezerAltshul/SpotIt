@@ -28,3 +28,13 @@ C:\Users\elial\source\repos\spotit_final\SpotIt\obj\Debug\SpotIt.pdb
 C:\Users\elial\source\repos\spotit_final\SpotIt\bin\Debug\SpotIt.exe.config
 C:\Users\elial\source\repos\spotit_final\SpotIt\bin\Debug\SpotIt.exe
 C:\Users\elial\source\repos\spotit_final\SpotIt\bin\Debug\SpotIt.pdb
+C:\Users\JackR\Source\Repos\n-ovadia\spotit\SpotIt\bin\Debug\SpotIt.exe.config
+C:\Users\JackR\Source\Repos\n-ovadia\spotit\SpotIt\bin\Debug\SpotIt.exe
+C:\Users\JackR\Source\Repos\n-ovadia\spotit\SpotIt\bin\Debug\SpotIt.pdb
+C:\Users\JackR\Source\Repos\n-ovadia\spotit\SpotIt\obj\Debug\SpotIt.csprojAssemblyReference.cache
+C:\Users\JackR\Source\Repos\n-ovadia\spotit\SpotIt\obj\Debug\SpotIt.Form1.resources
+C:\Users\JackR\Source\Repos\n-ovadia\spotit\SpotIt\obj\Debug\SpotIt.Properties.Resources.resources
+C:\Users\JackR\Source\Repos\n-ovadia\spotit\SpotIt\obj\Debug\SpotIt.csproj.GenerateResource.cache
+C:\Users\JackR\Source\Repos\n-ovadia\spotit\SpotIt\obj\Debug\SpotIt.csproj.CoreCompileInputs.cache
+C:\Users\JackR\Source\Repos\n-ovadia\spotit\SpotIt\obj\Debug\SpotIt.exe
+C:\Users\JackR\Source\Repos\n-ovadia\spotit\SpotIt\obj\Debug\SpotIt.pdb

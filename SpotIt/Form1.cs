@@ -222,7 +222,7 @@ namespace SpotIt
             this.doneLabel.Location = new System.Drawing.Point(257, 23);
             this.doneLabel.MinimumSize = new System.Drawing.Size(200, 0);
             this.doneLabel.Name = "doneLabel";
-            this.doneLabel.Size = new System.Drawing.Size(200, 17);
+            this.doneLabel.Size = new System.Drawing.Size(200, 20);
             this.doneLabel.TabIndex = 12;
             // 
             // cardCountLabel
@@ -231,7 +231,7 @@ namespace SpotIt
             this.cardCountLabel.Location = new System.Drawing.Point(463, 15);
             this.cardCountLabel.MinimumSize = new System.Drawing.Size(100, 0);
             this.cardCountLabel.Name = "cardCountLabel";
-            this.cardCountLabel.Size = new System.Drawing.Size(100, 17);
+            this.cardCountLabel.Size = new System.Drawing.Size(100, 20);
             this.cardCountLabel.TabIndex = 13;
             // 
             // timer1
@@ -246,7 +246,7 @@ namespace SpotIt
             this.TimeMinLabel.Location = new System.Drawing.Point(895, 23);
             this.TimeMinLabel.MinimumSize = new System.Drawing.Size(50, 0);
             this.TimeMinLabel.Name = "TimeMinLabel";
-            this.TimeMinLabel.Size = new System.Drawing.Size(50, 17);
+            this.TimeMinLabel.Size = new System.Drawing.Size(50, 20);
             this.TimeMinLabel.TabIndex = 15;
             // 
             // TimeSecLabel
@@ -255,7 +255,7 @@ namespace SpotIt
             this.TimeSecLabel.Location = new System.Drawing.Point(951, 23);
             this.TimeSecLabel.MinimumSize = new System.Drawing.Size(50, 0);
             this.TimeSecLabel.Name = "TimeSecLabel";
-            this.TimeSecLabel.Size = new System.Drawing.Size(50, 17);
+            this.TimeSecLabel.Size = new System.Drawing.Size(50, 20);
             this.TimeSecLabel.TabIndex = 16;
             // 
             // BestScore
@@ -264,9 +264,10 @@ namespace SpotIt
             this.BestScore.Location = new System.Drawing.Point(801, 40);
             this.BestScore.MinimumSize = new System.Drawing.Size(200, 0);
             this.BestScore.Name = "BestScore";
-            this.BestScore.Size = new System.Drawing.Size(200, 17);
+            this.BestScore.Size = new System.Drawing.Size(200, 20);
             this.BestScore.TabIndex = 17;
             this.BestScore.Text = "Best Score:";
+            this.BestScore.Click += new System.EventHandler(this.BestScore_Click);
             // 
             // Form1
             // 
@@ -364,13 +365,13 @@ namespace SpotIt
 
             if (gameContinue)
             {
+                counter--;
+
                 userCard = compCard;
                 DisplayCards(userCard, userSpots);
 
                 compCard = game.Deck.Pop();
                 DisplayCards(compCard, compSpots);
-
-                counter--;
             }
            
         }
@@ -423,6 +424,10 @@ namespace SpotIt
             gameContinue = game.Deck.Count != 0;
         }
 
+        private void BestScore_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
