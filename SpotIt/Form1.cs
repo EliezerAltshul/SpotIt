@@ -30,7 +30,7 @@ namespace SpotIt
         public Form1()
         {
             InitializeComponent();
-            
+
         }
 
         private void InitializeComponent()
@@ -324,12 +324,12 @@ namespace SpotIt
 
         }
 
-        private  void PlayButton_ClickAsync(object sender, EventArgs e)
+        private void PlayButton_ClickAsync(object sender, EventArgs e)
         {
             game = new Game(6, images);
             gameContinue = true;
-            
-            counter = game.elems.Length-3;
+
+            counter = game.elems.Length - 3;
 
             userCard = game.Deck.Pop();
 
@@ -338,10 +338,10 @@ namespace SpotIt
             compCard = game.Deck.Pop();
 
             DisplayCards(compCard, compSpots);
-            
+
         }
 
-        
+
 
         private void DisplayCards(int[] card, List<Spot> spots)
         {
@@ -352,18 +352,17 @@ namespace SpotIt
                 spots[i].picturBox.Image = Image.FromFile(images[card[i]]);
                 cardCountLabel.Text = "Cards Left: " + counter;
             }
-            if (!gameContinue)
+            if (!gameContinue || counter == 0)
             {
                 doneLabel.Text = "Completed! Play Again???";
                 ShowBestScore();
             }
-            
+
         }
 
         private void DisplayNextCards()
         {
-
-            if (gameContinue)
+            if (gameContinue && counter != 0)
             {
                 counter--;
 
@@ -372,8 +371,9 @@ namespace SpotIt
 
                 compCard = game.Deck.Pop();
                 DisplayCards(compCard, compSpots);
+
             }
-           
+
         }
 
         private bool isCorrectMatch(int[] userCard, int[] compCard, PictureBox picture)
@@ -384,7 +384,7 @@ namespace SpotIt
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            if(isCorrectMatch(userCard, compCard, pictureBox1) && gameContinue)
+            if (isCorrectMatch(userCard, compCard, pictureBox1) && gameContinue)
                 DisplayNextCards();
             gameContinue = game.Deck.Count != 0;
         }
@@ -431,7 +431,7 @@ namespace SpotIt
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (gameContinue)
+            if (gameContinue && counter != 0)
             {
                 TimeSecLabel.Text = "Seconds: " + ++timeSec;
                 if (timeSec >= 60)
@@ -441,16 +441,16 @@ namespace SpotIt
                 }
             }
         }
-       
+
         private void ShowBestScore()
         {
-            if(timeMin < bestTimeMin || (timeMin == bestTimeMin && (timeSec < bestTimeSec)))
+            if (timeMin < bestTimeMin || (timeMin == bestTimeMin && (timeSec < bestTimeSec)))
             {
                 bestTimeMin = timeMin;
                 bestTimeSec = timeSec;
                 BestScore.Text = " Minute: " + bestTimeMin + " Second: " + bestTimeSec;
             }
-            
+
             timeSec = 0;
             timeMin = 0;
         }
